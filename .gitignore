@@ -1,0 +1,6 @@
+# deployment package and modules
+package/
+*.zip
+
+# python virtual environment 
+venv/
