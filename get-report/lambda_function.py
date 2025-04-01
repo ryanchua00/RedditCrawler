@@ -144,7 +144,7 @@ def lambda_handler(event, context):
         }
     )
 
-    # no memes scraped for today
+    # No memes found
     if len(data['Items']) == 0 or len(data['Items']) < 20:
         return {
             "statusCode": 404,

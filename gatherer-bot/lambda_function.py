@@ -91,6 +91,7 @@ def lambda_handler(event, context):
         report_data = json.loads(response_payload)
 
         if report_data['statusCode'] == 404:
+            #  Handle case of no memes in database
             send_message(
                 chat_id, "No memes found. Have you called /scrapememes?.")
         else:

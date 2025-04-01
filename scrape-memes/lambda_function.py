@@ -1,16 +1,34 @@
+'''
+This AWS Lambda function scrapes the top 20 daily memes from r/memes using \
+PRAW (Python Reddit API Wrapper) and stores them in a DynamoDB table. \
+It handles various media types including images, GIFs, and videos.
+'''
+
 import boto3
 import praw
 import json
 import os
 from datetime import datetime
 
-# Reddit API credentials (use environment variables in Lambda)
+# get Reddit API credentials
 REDDIT_CLIENT_ID = os.getenv("REDDIT_CLIENT_ID")
 REDDIT_CLIENT_SECRET = os.getenv("REDDIT_CLIENT_SECRET")
 REDDIT_USER_AGENT = "lambda-roody-bot/0.1"
 
 
 def lambda_handler(event, context):
+    '''
+    Scrapes r/memes to retrieve data on the top 20 memes
+
+    The fields for each post are:
+        - title (str): Title of the Reddit post
+        - url (str): URL of the meme image/post
+        - thumbnail (str): URL of the thumbnail image used in the pdf
+        - post_created_at (str): Post creation date in iso format
+        - upvotes (int): Number of upvotes
+        - awards (int): Number of awards received
+        - media_type (str): Type of media, either 'gif', 'video'
+    '''
     # Initialize PRAW client
     reddit = praw.Reddit(
         client_id=REDDIT_CLIENT_ID,
