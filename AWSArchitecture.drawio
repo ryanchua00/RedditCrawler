@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" version="26.0.5">
   <diagram id="Ht1M8jgEwFfnCIfOTk4-" name="Page-1">
-    <mxGraphModel dx="1434" dy="1734" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="2868" dy="2641" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -23,7 +23,7 @@
         <mxCell id="UEzPUAAOIrF-is8g5C7q-149" value="Amazon DynamoDB" style="outlineConnect=0;fontColor=#232F3E;gradientColor=#4D72F3;gradientDirection=north;fillColor=#3334B9;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;labelBackgroundColor=#ffffff;" parent="UEzPUAAOIrF-is8g5C7q-154" vertex="1">
           <mxGeometry x="516" y="141" width="78" height="78" as="geometry" />
         </mxCell>
-        <mxCell id="YZtYT6oUqQ94IwrMaRFQ-9" value="/scrapememes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="UEzPUAAOIrF-is8g5C7q-154" source="UEzPUAAOIrF-is8g5C7q-148" target="YZtYT6oUqQ94IwrMaRFQ-4">
+        <mxCell id="YZtYT6oUqQ94IwrMaRFQ-9" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;/scrapememes&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="UEzPUAAOIrF-is8g5C7q-154" source="UEzPUAAOIrF-is8g5C7q-148" target="YZtYT6oUqQ94IwrMaRFQ-4">
           <mxGeometry x="0.0892" relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="310" y="180" />
@@ -38,7 +38,7 @@
         <mxCell id="YZtYT6oUqQ94IwrMaRFQ-3" value="get-report" style="outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelBackgroundColor=#ffffff;spacingTop=8;" vertex="1" parent="UEzPUAAOIrF-is8g5C7q-154">
           <mxGeometry x="366" y="230" width="78" height="78" as="geometry" />
         </mxCell>
-        <mxCell id="YZtYT6oUqQ94IwrMaRFQ-8" value="/getreport" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="UEzPUAAOIrF-is8g5C7q-154" source="UEzPUAAOIrF-is8g5C7q-148" target="YZtYT6oUqQ94IwrMaRFQ-3">
+        <mxCell id="YZtYT6oUqQ94IwrMaRFQ-8" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;/getreport&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;" edge="1" parent="UEzPUAAOIrF-is8g5C7q-154" source="UEzPUAAOIrF-is8g5C7q-148" target="YZtYT6oUqQ94IwrMaRFQ-3">
           <mxGeometry x="0.0495" relative="1" as="geometry">
             <mxPoint x="270" y="-70" as="targetPoint" />
             <Array as="points">
@@ -51,13 +51,13 @@
         <mxCell id="YZtYT6oUqQ94IwrMaRFQ-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="UEzPUAAOIrF-is8g5C7q-154" source="YZtYT6oUqQ94IwrMaRFQ-4" target="UEzPUAAOIrF-is8g5C7q-149">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="YZtYT6oUqQ94IwrMaRFQ-4" value="scrape-memes" style="outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelBackgroundColor=#ffffff;spacingTop=8;" vertex="1" parent="UEzPUAAOIrF-is8g5C7q-154">
+        <mxCell id="YZtYT6oUqQ94IwrMaRFQ-4" value="&lt;font&gt;scrape-memes&lt;/font&gt;" style="outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;labelBackgroundColor=#ffffff;spacingTop=8;" vertex="1" parent="UEzPUAAOIrF-is8g5C7q-154">
           <mxGeometry x="366" y="40" width="78" height="78" as="geometry" />
         </mxCell>
         <mxCell id="YZtYT6oUqQ94IwrMaRFQ-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="YZtYT6oUqQ94IwrMaRFQ-2" target="YZtYT6oUqQ94IwrMaRFQ-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="YZtYT6oUqQ94IwrMaRFQ-2" value="Telegram" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn2.iconfinder.com/data/icons/social-media-2421/512/Telegram-128.png" vertex="1" parent="1">
+        <mxCell id="YZtYT6oUqQ94IwrMaRFQ-2" value="Telegram" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://cdn2.iconfinder.com/data/icons/social-media-2421/512/Telegram-128.png;fontSize=12;" vertex="1" parent="1">
           <mxGeometry x="243" y="-260" width="80" height="80" as="geometry" />
         </mxCell>
         <mxCell id="YZtYT6oUqQ94IwrMaRFQ-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=22;" edge="1" parent="1" source="UEzPUAAOIrF-is8g5C7q-148" target="YZtYT6oUqQ94IwrMaRFQ-2">
