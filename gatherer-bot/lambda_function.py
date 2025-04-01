@@ -1,3 +1,9 @@
+'''
+This AWS Lambda function acts as a Telegram bot, and functions through webhook.
+
+It listens for two main commands, namely '/getreport' and '/scrapememes'
+'''
+
 import requests
 import base64
 import boto3
@@ -9,9 +15,9 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 lambda_client = boto3.client('lambda')
 
 
-def sendMessage(chat_id, message):
+def send_message(chat_id, message):
     """
-    The function `sendMessage` sends a message to a specified chat ID using the Telegram API.
+    Sends a message to a specified chat ID using the Telegram sendMessage API.
 
     :chat_id:
     The Telegram unique identifier for the chat where you want to send the message.
@@ -26,12 +32,12 @@ def sendMessage(chat_id, message):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     response = requests.post(url, json=reply)
 
-    print(f"*** sendMessage Response : {response.json()}")
+    print(f"*** send_message Response : {response.json()}")
 
 
-def sendDocument(chat_id, data, filename="reddit_memes.pdf"):
+def send_document(chat_id, data, filename="reddit_memes.pdf"):
     """
-    The function `sendDocument` sends a document to a specified chat ID using the Telegram API.
+    Sends a document to a specified chat ID using the Telegram sendDocument API.
 
     :chat_id:
     The Telegram unique identifier for the chat where you want to send the document.
@@ -52,7 +58,7 @@ def sendDocument(chat_id, data, filename="reddit_memes.pdf"):
     }
     response = requests.post(url, files=files, data=chat_data)
 
-    print(f"*** sendDocument Response : {response.json()}")
+    print(f"*** send_document Response : {response.json()}")
 
 
 def lambda_handler(event, context):
@@ -67,27 +73,32 @@ def lambda_handler(event, context):
     print(f"*** message text: {message_text}")
 
     # Filter response based on message
-    if message_text == "/getmemes":
+    if message_text == "/scrapememes":
         # Call scrape-memes
         response_get = lambda_client.invoke(
             FunctionName='scrape-memes',
             InvocationType='RequestResponse'
         )
-        sendMessage(chat_id, "Top daily memes gathered 👍")
+        send_message(chat_id, "Top daily memes gathered 👍")
     elif message_text == "/getreport":
-        sendMessage(chat_id, "Generating a report... 📝")
-        # Call get-memes
+        send_message(chat_id, "Generating a report... 📝")
+        # Call get-report
         response_get = lambda_client.invoke(
-            FunctionName='get-memes',
+            FunctionName='get-report',
             InvocationType='RequestResponse'
         )
         response_payload = response_get['Payload'].read().decode('utf-8')
         report_data = json.loads(response_payload)
-        sendDocument(chat_id, report_data["body"])
+
+        if report_data['statusCode'] == 404:
+            send_message(
+                chat_id, "No memes found. Have you called /scrapememes?.")
+        else:
+            send_document(chat_id, report_data["body"])
     else:
         # Default response
-        message_text = "Hello! Use /getmemes followed by /getreport to get started."
-        sendMessage(chat_id, message_text)
+        message_text = "Hello! Use /scrapememes followed by /getreport to get started."
+        send_message(chat_id, message_text)
 
     return {
         'statusCode': 200,
