@@ -21,35 +21,36 @@ def lambda_handler(event, context):
     # Get top posts from r/memes
     memes = reddit.subreddit("memes")
     data = []
+    # Retrieve data from each post
     for index, submission in enumerate(memes.top(time_filter="day", limit=20)):
         post = {}
         post['_date'] = datetime.today().strftime('%Y-%m-%d')
         post['_id'] = index
-        if ".gif" in submission.url:
-            # pprint(vars(submission))
-            post['url'] = submission.thumbnail
-            post['media_type'] = "gif"
-            post['gif_url'] = submission.url
-        elif not any(ext in submission.url for ext in [".png", ".jpeg", ".jpg"]):
-            post['url'] = submission.preview['images'][0]['source']['url']
-            post['media_type'] = "video"
-            post['video_url'] = submission.url
-        else:
+        try:
+            created_datetime = datetime.fromtimestamp(submission.created)
+            post['post_created_at'] = created_datetime.isoformat()
+            post['author'] = submission.author.name
+            post['title'] = submission.title
+            post['upvotes'] = submission.ups
+            post['awards'] = submission.total_awards_received
             post['url'] = submission.url
-        created_datetime = datetime.fromtimestamp(submission.created)
-        post['post_created_at'] = created_datetime.isoformat()
-        post['author'] = submission.author.name
-        post['title'] = submission.title
-        post['upvotes'] = submission.ups
-        post['awards'] = submission.total_awards_received
-        data.append(post)
+            if ".gif" in submission.url:
+                post['thumbnail'] = submission.thumbnail
+                post['media_type'] = "gif"
+            elif any(ext in submission.url for ext in [".png", ".jpeg", ".jpg"]):
+                post['thumbnail'] = submission.url
+            else:
+                post['thumbnail'] = submission.preview['images'][0]['source']['url']
+                post['media_type'] = "video"
+            data.append(post)
+        except AttributeError as e:
+            print(f"Skipping post due to missing attribute: {e}")
 
     print("Initializing DB...")
     table_name = 'memes'
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(table_name)
 
-    result = None
     print("Writing to DB...")
     with table.batch_writer() as batch_writer:
         for post in data:
