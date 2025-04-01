@@ -1,13 +1,26 @@
+'''
+This AWS Lambda function generates a PDF report of the top memes from r/memes subreddit \
+that have been scraped and stored in a DynamoDB table. The function:
+
+Note: reportlab is not included in requirements.txt, as a layer is being used in AWS Lambda.
+Layer: arn:aws:lambda:ap-southeast-1:770693421928:layer:Klayers-p311-reportlab:8
+This is done due to a dependency issue with PIL, seen here:
+https://stackoverflow.com/questions/57197283/aws-lambda-cannot-import-name-imaging-from-pil
+
+'''
+
+
 from reportlab.lib.utils import ImageReader
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from datetime import datetime
 from io import BytesIO
 from PIL import Image
-from datetime import datetime
 import requests
 import base64
 import boto3
 
+# Get AWS dynamodb table - memes
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('memes')
 
@@ -23,13 +36,32 @@ def get_pil_image_from_url(url):
         print(f"Download failed: {e}")
     except Exception as e:
         print(f"Image processing error: {e}")
-    return None
 
 
 def create_pdf(data):
+    """
+    Creates a pdf and returns a buffer object containing the pdf
+
+    Args:
+        data (list[dict]): A list of dictionaries containing meme post data. Each dictionary should contain:
+            - title (str): Title of the Reddit post
+            - url (str): URL of the meme image/post
+            - thumbnail (str): URL of the thumbnail image used in the pdf
+            - post_created_at (str): Post creation date in iso format
+            - upvotes (int): Number of upvotes
+            - awards (int): Number of awards received
+            - media_type (str): Type of media, either 'gif', 'video'
+
+    Returns:
+        BytesIO: A buffer object containing the generated PDF data
+
+    Note:
+        - Urls represent a link for the user to visit the post, and thumbnails are pictures used in the report
+        - Images are downloaded from URLs and resized to fit the PDF
+    """
     pdf_buffer = BytesIO()
     pdf = canvas.Canvas(pdf_buffer, pagesize=letter)
-    width, height = letter
+    _, height = letter
     y_position = height - 50  # Starting position
 
     pdf.setFont("Helvetica-Bold", 16)
@@ -49,21 +81,16 @@ def create_pdf(data):
             50, y_position, f"{index}. {post['title']}")
         y_position -= 20
 
+        # Author, date, upvotes, awards
         pdf.setFont("Helvetica-Oblique", 12)
         pdf.drawString(
             50, y_position, f"By {post['author']} on {post['post_created_at']} | ⬆ {post['upvotes']} upvotes | ⭐ {post['awards']} awards")
         y_position -= 15
 
-        # Link (Optional, clickable in some PDF readers)
+        # Url
         pdf.setFillColorRGB(0, 0, 1)  # Blue for hyperlink
         pdf.setFont("Helvetica-Oblique", 10)
-
-        if 'media_type' in post and post['media_type'] == "video":
-            pdf.drawString(50, y_position, post['video_url'])
-        elif 'media_type' in post and post['media_type'] == "gif":
-            pdf.drawString(50, y_position, post['gif_url'])
-        else:
-            pdf.drawString(50, y_position, post['url'])
+        pdf.drawString(50, y_position, post['url'])
         pdf.setFillColorRGB(0, 0, 0)  # Reset color
         y_position -= 20  # Space before image
 
@@ -72,10 +99,8 @@ def create_pdf(data):
             pdf.drawString(50, y_position, f"({post['media_type']})")
             y_position -= 5
 
-        # Download and add image
-        # print(img_data.format, img_data.mode, img_data.size)
-        # TODO: detect for ending with .jpeg instead
         try:
+            # Download image and save as JPEG to reduce space
             img_data = get_pil_image_from_url(post['url'])
             buffer = BytesIO()
             img_data.save(buffer, format='JPEG', quality=85,
@@ -83,7 +108,7 @@ def create_pdf(data):
             buffer.seek(0)
             img_data = ImageReader(buffer)
 
-            # Resize jpeg
+            # Resize img_data to fit into pdf
             img_width, img_height = img_data.getSize()
             fixed_height = 280
             scaled_width = fixed_height/img_height*img_width
@@ -104,12 +129,10 @@ def create_pdf(data):
     pdf.save()
     pdf_buffer.seek(0)
     return pdf_buffer
-    # webbrowser.open(filename)  # Opens the PDF
 
 
 def lambda_handler(event, context):
-
-    # Select items with primary key
+    # Select items with primary key as todays date in %Y-%m-%d format
     today = datetime.today().strftime('%Y-%m-%d')
     data = table.query(
         KeyConditionExpression='#date = :date_val',  # Use a placeholder
@@ -121,6 +144,7 @@ def lambda_handler(event, context):
         }
     )
 
+    # no memes scraped for today
     if len(data['Items']) == 0 or len(data['Items']) < 20:
         return {
             "statusCode": 404,
@@ -128,8 +152,7 @@ def lambda_handler(event, context):
         }
 
     pdf_buffer = create_pdf(data['Items'])
-    # force
-    # return data['Items']
+
     return {
         "statusCode": 200,
         "headers": {

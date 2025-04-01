@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Define the package directories
-GET_MEMES_PACKAGE_DIR="./get-memes/package"
+GET_MEMES_PACKAGE_DIR="./get-report/package"
 SCRAPE_MEMES_PACKAGE_DIR="./scrape-memes/package"
 GATHERER_BOT_PACKAGE_DIR="./gatherer-bot/package"
 
 # Define the zip files
-GET_MEMES_ZIP_FILE="get-memes-deployment-package.zip"
+GET_MEMES_ZIP_FILE="get-report-deployment-package.zip"
 SCRAPE_MEMES_ZIP_FILE="scrape-memes-deployment-package.zip"
 GATHERER_BOT_ZIP_FILE="gatherer-bot-deployment-package.zip"
 
@@ -15,7 +15,7 @@ rm -rf $GET_MEMES_PACKAGE_DIR
 mkdir -p $GET_MEMES_PACKAGE_DIR
 
 # Install Python dependencies into the get-memes package directory
-pip install --no-cache-dir -r ./get-memes/requirements.txt --target $GET_MEMES_PACKAGE_DIR
+pip install --no-cache-dir -r ./get-report/requirements.txt --target $GET_MEMES_PACKAGE_DIR
 
 # Package the get-memes code
 cd $GET_MEMES_PACKAGE_DIR
