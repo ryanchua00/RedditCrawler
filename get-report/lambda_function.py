@@ -31,6 +31,9 @@ def get_pil_image_from_url(url):
         img_data = BytesIO(response.content)
         img_data.seek(0)
         img = Image.open(img_data)
+        # Handles .jpg edgecase
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
         return img
     except requests.exceptions.RequestException as e:
         print(f"Download failed: {e}")
@@ -45,6 +48,7 @@ def create_pdf(data):
     Args:
         data (list[dict]): A list of dictionaries containing meme post data. Each dictionary should contain:
             - title (str): Title of the Reddit post
+            - author(str): Author of the Reddit post
             - url (str): URL of the meme image/post
             - thumbnail (str): URL of the thumbnail image used in the pdf
             - post_created_at (str): Post creation date in iso format

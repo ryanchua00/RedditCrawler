@@ -20,8 +20,13 @@ def lambda_handler(event, context):
     '''
     Scrapes r/memes to retrieve data on the top 20 memes
 
+    The keys for each post are:
+        - date (str)(PK): date in YYYY-MM-DD format
+        - index (int)(SK): ranking from 1-20 
+
     The fields for each post are:
         - title (str): Title of the Reddit post
+        - author(str): Author of the Reddit post
         - url (str): URL of the meme image/post
         - thumbnail (str): URL of the thumbnail image used in the pdf
         - post_created_at (str): Post creation date in iso format
