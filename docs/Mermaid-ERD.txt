@@ -1,0 +1,36 @@
+erDiagram
+POST || --o{
+    COMMENT: ""
+    POST || --| {
+        POST_TOPICS: ""
+    POST {
+        string post_id PK
+        string title
+        string author
+        string url
+        string thumbnail
+        string post_created_at
+        int upvotes
+        int awards
+        string media_type
+    }
+
+    POST_TOPICS {
+        string post_id PK, FK
+        string topic_id PK, FK
+    }
+
+    TOPIC || --| {
+        POST_TOPICS: ""
+    TOPIC {
+        string topic_id PK
+        string name
+    }
+
+    COMMENT {
+        string comment_id PK
+        string author
+        string text
+        int upvotes
+        string post_id FK
+    }
