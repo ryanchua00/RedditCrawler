@@ -6,6 +6,10 @@ The crawler for the most important resource in the world - memes
 
 This repository contains 3 AWS lambda functions, `lambda_function.py`, which handle the telegram bot logic, the meme scraping logic and the pdf creation logic respectively. This project relies on Amazon DynamoDB, AWS Lambda and Amazon API Gateway.
 
+![AWSArchitecture](./docs/AWSArchitecture.png)
+
+This diagram describes the architecture used in the serverless deployment. `gatherer-bot` contains the primary Telegram bot logic, and is webhooked to avoid long polling. Requests are routed through `gatherer-bot` to `scrape-memes` and `get-report` Lambda functions.
+
 The bot uses two commmands: `/scrapememes` and `/getreport`.
 
 `/scrapememes` gets the top 20 posts from r/memes of the day, and stores them in a DynamoDB database.
