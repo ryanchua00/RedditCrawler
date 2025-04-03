@@ -12,9 +12,9 @@ This diagram describes the architecture used in the serverless deployment. `gath
 
 The bot uses two commmands: `/scrapememes` and `/getreport`.
 
-`/scrapememes` gets the top 20 posts from r/memes of the day, and stores them in a DynamoDB database.
+`/scrapememes` is routed to `scrape-memes` Lambda and gets the top 20 posts from r/memes of the day, and stores them in a DynamoDB database.
 
-`/getreport` retrieves the 20 posts from the database and generates a pdf, which is then sent to the user.
+`/getreport` is routed to `get-report` Lambda and retrieves the 20 posts from the database and generates a pdf, which is then sent to the user.
 
 `packager.sh` packages the code for simplicity. This can be enhanced to use containers on AWS.
 
